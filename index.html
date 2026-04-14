@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Cyber Club | Единый стиль для всех рядов</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body{
+  background:#0a0a0a;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:0;
+  margin:0;
+  height:100vh;
+  width:100vw;
+  transition: background 0.2s, color 0.2s;
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:flex;
+  border:3px solid #ff6600;
+  border-radius:0px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 0 30px rgba(255,102,0,0.3);
+}
+
+.app::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#0a0a0a 60%,#2a2a2a 100%);
+  z-index:0;
+}
+
+.sidebar{
+  width:280px;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(10px);
+  z-index:2;
+  padding:25px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  border-right:2px solid #ff6600;
+}
+
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff6600,#ffaa33);
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  box-shadow:0 0 15px rgba(255,102,0,0.5);
+}
+
+.username{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:15px;
+  color:#ffaa33;
+}
+
+.balance{
+  width:100%;
+  font-size:14px;
+  margin-bottom:20px;
+  background:#1a1a1a;
+  padding:12px;
+  border-radius:12px;
+}
+
+.bar{
+  height:8px;
+  background:#333;
+  border-radius:10px;
+  margin-top:8px;
+  overflow:hidden;
+}
+
+.bar span{
+  display:block;
+  height:100%;
+  background:#ff6600;
+  border-radius:10px;
+  transition:width 0.3s;
+}
+
+.menu{
+  width:100%;
+  margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.menu button{
+  width:100%;
+  padding:12px;
+  background:#111;
+  border:1px solid #ff6600;
+  color:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:bold;
+  transition:all 0.2s;
+}
+
+.menu button:hover{
+  background:#ff6600;
+  color:#000;
+  transform:translateX(5px);
+}
+
+.content{
+  flex:1;
+  z-index:2;
+  padding:30px;
+  overflow-y:auto;
+  background:rgba(0,0,0,0.5);
+  height: 100%;
+}
+
+.card{
+  background:#1e1e1e;
+  padding:30px;
+  border-radius:20px;
+  width:100%;
+  max-width:400px;
+  margin:0 auto;
+  border:1px solid #333;
+}
+
+.card h2{
+  text-align:center;
+  margin-bottom:25px;
+  color:#ff6600;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border:none;
+  border-radius:8px;
+  background:#2a2a2a;
+  color:#fff;
+  font-size:14px;
+}
+
+input:focus, select:focus{
+  outline:2px solid #ff6600;
+}
+
+.btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  background:#ff6600;
+  color:#000;
+  font-weight:bold;
+  margin-top:10px;
+  cursor:pointer;
+  transition:0.2s;
+  font-size:15px;
+}
+
+.btn:hover{
+  background:#ff8833;
+  transform:scale(0.98);
+}
+
+.btn.gray{
+  background:#444;
+  color:#fff;
+}
+
+.btn.gray:hover{
+  background:#555;
+}
+
+.balance-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.balance-btn {
+  background: #2a2a2a;
+  border: 1px solid #ff6600;
+  color: #ffaa33;
+  padding: 12px 8px;
+  border-radius: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 16px;
+  text-align: center;
+}
+
+.balance-btn:hover {
+  background: #ff6600;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+}
+
+.tables-container{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.table-wrapper{
+  background:#1e1e1e;
+  border-radius:20px;
+  padding:20px;
+  overflow-x:auto;
+}
+
+.section-title{
+  font-size:22px;
+  color:#ff6600;
+  margin-bottom:20px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.price-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.price-table th,
+.price-table td{
+  border:1px solid #444;
+  padding:12px;
+  text-align:center;
+}
+
+.price-table th{
+  background:#2a2a2a;
+  color:#ff6600;
+  font-weight:bold;
+}
+
+.price-table td{
+  background:#1a1a1a;
+}
+
+.price-table tr:hover td{
+  background:#252525;
+}
+
+.hall-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.pc-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+  flex-wrap: wrap;
+  background: rgba(0,0,0,0.2);
+  padding: 12px;
+  border-radius: 16px;
+  border-left: 4px solid #ff6600;
+}
+
+.row-label {
+  width: 100%;
+  font-size: 15px;
+  color: #ffaa66;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row-label .row-badge {
+  background: #ff6600;
+  padding: 4px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+  color: #000;
+  font-weight: bold;
+}
+
+/* Единый стиль для всех типов рядов - такой же как у Normal */
+.row-label .type-tag {
+  background: rgba(0,0,0,0.6);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #ffaa66;
+  border: 1px solid #ff6600;
+}
+
+.pc-card {
+  flex: 1;
+  min-width: 90px;
+  background: #2a2a2a;
+  border-radius: 16px;
+  padding: 15px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid #444;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.pc-card:hover {
+  transform: translateY(-5px);
+  border-color: #ff6600;
+  background: #2f2f2f;
+  box-shadow: 0 8px 18px rgba(255,102,0,0.2);
+}
+
+.pc-number {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff, #ffaa33);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.pc-status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 30px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.status-free {
+  background: #00aa44;
+  color: #fff;
+  box-shadow: 0 0 5px #00aa44;
+}
+
+.status-occupied {
+  background: #ff3300;
+  color: #fff;
+  box-shadow: 0 0 5px #ff3300;
+}
+
+.pc-timer {
+  font-size: 10px;
+  margin-top: 8px;
+  color: #ffaa66;
+  font-family: monospace;
+  background: #1a1a1a;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.profile-card {
+  background: #1e1e1e;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.profile-info {
+  margin: 20px 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.info-label {
+  color: #aaa;
+  font-weight: bold;
+}
+
+.info-value {
+  color: #ffaa33;
+  font-weight: bold;
+}
+
+.customize-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.customize-item {
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.customize-item:hover {
+  background: #3a3a3a;
+  transform: translateX(5px);
+}
+
+.customize-item span:first-child {
+  font-weight: bold;
+}
+
+.customize-item span:last-child {
+  color: #ff6600;
+}
+
+.admin-panel {
+  background: #1e1e1e;
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+.content::-webkit-scrollbar {
+  width: 6px;
+}
+.content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+.content::-webkit-scrollbar-thumb {
+  background: #ff6600;
+  border-radius: 10px;
+}
+
+@media (max-width: 800px) {
+  .pc-card {
+    min-width: 70px;
+    padding: 10px 5px;
+  }
+  .pc-number {
+    font-size: 16px;
+  }
+  .sidebar {
+    width: 240px;
+  }
+}
+
+@media (max-width: 650px) {
+  .pc-row {
+    gap: 8px;
+  }
+  .pc-card {
+    min-width: 60px;
+  }
+  .balance-buttons {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<div class="sidebar">
+  <div class="avatar">🎮</div>
+  <div class="username" id="displayUsername">Гость</div>
+
+  <div class="balance">
+    💰 Баланс: <span id="balanceAmount">0</span> ₽
+    <div class="bar"><span id="balanceBar" style="width:0%"></span></div>
+  </div>
+
+  <div class="menu">
+    <button onclick="showSection('hall')">🖥️ Зал</button>
+    <button onclick="showSection('tariffs')">📊 Тарифы</button>
+    <button onclick="showSection('profile')">👤 Профиль</button>
+    <button onclick="showSection('customize')">⚙️ Кастомизация</button>
+    <button onclick="showSection('admin')" id="adminBtn" style="display:none;">👑 Админ-панель</button>
+    <button onclick="logout()">🚪 Выход</button>
+  </div>
+</div>
+
+<div class="content" id="contentArea">
+
+  <div id="loginBlock" class="card">
+    <h2>🔐 Вход в Cyber Club</h2>
+    <input type="text" id="loginEmail" placeholder="Логин / Email">
+    <input type="password" id="loginPass" placeholder="Пароль">
+    <button class="btn" onclick="login()">Войти</button>
+    <button class="btn gray" onclick="showRegisterForm()">Регистрация</button>
+  </div>
+
+  <div id="registerBlock" class="card" style="display:none;">
+    <h2>📝 Регистрация</h2>
+    <input type="text" id="regName" placeholder="Ваше имя">
+    <input type="email" id="regEmail" placeholder="Email">
+    <input type="password" id="regPass" placeholder="Пароль">
+    <input type="password" id="regPass2" placeholder="Повторите пароль">
+    <button class="btn" onclick="register()">Зарегистрироваться</button>
+    <button class="btn gray" onclick="showLoginForm()">Назад</button>
+  </div>
+
+  <div id="hallBlock" class="hidden">
+    <div class="section-title">🎮 Игровой зал</div>
+    <div class="hall-grid" id="pcGridContainer"></div>
+    <div style="margin-top:20px; text-align:center;">
+      <button class="btn" style="width:200px;" onclick="refreshHall()">🔄 Обновить статус</button>
+    </div>
+  </div>
+
+  <div id="tariffsBlock" class="hidden">
+    <div class="tables-container">
+      <div class="table-wrapper"><div class="section-title">💰 тарифы</div>
+        <table class="price-table"><thead><tr><th>Комната</th><th>1 час</th><th>2 часа</th><th>3 часа</th><th>VIP бонус</th></tr></thead>
+        <tbody><tr><td>🟢 Normal</td><td>100₽</td><td>200₽</td><td>300₽</td><td>-</td></tr>
+        <tr><td>🟡 Normal +</td><td>130₽</td><td>230₽</td><td>330₽</td><td>Приоритет</td></tr>
+        <tr><td>🟠 Normal ++</td><td>160₽</td><td>260₽</td><td>360₽</td><td>+10% к опыту</td></tr>
+        <tr><td>🔴 VIP</td><td>190₽</td><td>290₽</td><td>390₽</td><td>Отдельная зона</td></tr>
+        <tr><td>🎮 PS</td><td>100₽</td><td>200₽</td><td>300₽</td><td>PS5 доступ</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrapper"><div class="section-title">🌙 Ночные тарифы (22:00 - 08:00)</div>
+        <table class="price-table"><thead><tr><th>Тип комнаты</th><th>Ночь (пакет)</th><th>Стоимость</th></tr></thead>
+        <tbody><tr><td>Normal</td><td>8 часов</td><td>500₽</td></tr>
+        <tr><td>Normal +</td><td>8 часов</td><td>600₽</td></tr>
+        <tr><td>Normal ++</td><td>8 часов</td><td>700₽</td></tr>
+        <tr><td>VIP</td><td>8 часов</td><td>900₽</td></tr></tbody>
+       </table>
+      </div>
+      <div class="table-wrapper"><div class="section-title">☀️ Дневные тарифы (08:00 - 22:00)</div>
+        <table class="price-table"><thead><tr><th>Тип комнаты</th><th>День (пакет)</th><th>Стоимость</th></tr></thead>
+        <tbody><tr><td>Normal</td><td>14 часов</td><td>700₽</td></tr>
+        <tr><td>Normal +</td><td>14 часов</td><td>800₽</td></tr>
+        <tr><td>Normal ++</td><td>14 часов</td><td>900₽</td></tr>
+        <tr><td>VIP</td><td>14 часов</td><td>100₽</td></tr></tbody>
+       </table>
+      </div>
+      <div class="table-wrapper"><div class="section-title">🔄 Ночь/День 24 часа</div>
+        <table class="price-table"><thead><tr><th>Тип комнаты</th><th>Ночь+День</th><th>Стоимость</th></tr></thead>
+        <tbody><tr><td>Normal</td><td>Ночь + День</td><td>1200₽</td></tr>
+        <tr><td>Normal +</td><td>Ночь + День</td><td>1400₽</td></tr>
+        <tr><td>Normal ++</td><td>Ночь + День</td><td>1600₽</td></tr>
+        <tr><td>VIP</td><td>Ночь + День</td><td>1900₽</td></tr></tbody>
+       </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="profileBlock" class="hidden">
+    <div class="profile-card">
+      <h2 style="color:#ff6600; text-align:center;">👤 Мой профиль</h2>
+      <div class="profile-info">
+        <div class="info-row"><span class="info-label">Имя:</span><span class="info-value" id="profileName">-</span></div>
+        <div class="info-row"><span class="info-label">Email:</span><span class="info-value" id="profileEmail">-</span></div>
+        <div class="info-row"><span class="info-label">Баланс:</span><span class="info-value" id="profileBalance">0 ₽</span></div>
+        <div class="info-row"><span class="info-label">Статус:</span><span class="info-value" id="profileStatus">Обычный</span></div>
+        <div class="info-row"><span class="info-label">Игровых часов:</span><span class="info-value" id="profileHours">0</span></div>
+      </div>
+      <div class="balance-buttons">
+        <div class="balance-btn" onclick="addCustomBalance(100)">➕ 100 ₽</div>
+        <div class="balance-btn" onclick="addCustomBalance(200)">➕ 200 ₽</div>
+        <div class="balance-btn" onclick="addCustomBalance(300)">➕ 300 ₽</div>
+        <div class="balance-btn" onclick="addCustomBalance(500)">➕ 500 ₽</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="customizeBlock" class="hidden"><div class="profile-card"><h2 style="color:#ff6600; text-align:center;">⚙️ Кастомизация</h2>
+    <div class="customize-grid"><div class="customize-item" onclick="toggleSetting('closedProfile')"><span>🔒 Закрытый профиль</span><span id="closedProfileStatus">❌ Выкл</span></div>
+    <div class="customize-item" onclick="toggleSetting('language')"><span>🌐 Поменять язык</span><span id="languageStatus">Русский →</span></div>
+    <div class="customize-item" onclick="toggleSetting('theme')"><span>🎨 Тема</span><span id="themeStatus">Тёмная</span></div></div>
+    <button class="btn gray" onclick="showSection('profile')">Назад</button>
+  </div></div>
+
+  <div id="adminBlock" class="hidden"><div class="admin-panel"><h2 style="color:#ff6600; text-align:center;">👑 Админ-панель</h2>
+    <div class="admin-stats"><div class="stat-card"><div class="stat-value" id="adminUsers">0</div><div class="stat-label">Пользователей</div></div>
+    <div class="stat-card"><div class="stat-value" id="adminOnline">0</div><div class="stat-label">Онлайн (ПК)</div></div>
+    <div class="stat-card"><div class="stat-value" id="adminRevenue">0</div><div class="stat-label">Доход (₽)</div></div></div>
+    <button class="btn" onclick="resetComputers()">🔄 Сбросить все ПК</button>
+    <button class="btn gray" onclick="giveBonus()">🎁 Выдать бонус всем (+100₽)</button>
+  </div></div>
+</div>
+</div>
+
+<script>
+let currentUser = null;
+let users = [];
+let computers = [];
+let adminRevenue = 18500;
+let nextUserId = 1;
+let activeTimers = new Map();
+
+function loadData(){
+  const savedUsers = localStorage.getItem('cyberclub_users');
+  if(savedUsers){
+    users = JSON.parse(savedUsers);
+    nextUserId = users.length > 0 ? Math.max(...users.map(u=>u.id)) + 1 : 1;
+  } else {
+    users = [
+      {id:1, name:"Admin", email:"admin@club.ru", password:"1488", balance:5000, hours:120, status:"VIP", isAdmin:true, closedProfile:false, language:'ru', theme:'dark'},
+      {id:2, name:"Игрок", email:"player@mail.ru", password:"123", balance:2000, hours:25, status:"Normal", isAdmin:false, closedProfile:false, language:'ru', theme:'dark'}
+    ];
+    nextUserId = 3;
+  }
+  
+  const savedComputers = localStorage.getItem('cyberclub_computers_30');
+  if(savedComputers){
+    computers = JSON.parse(savedComputers);
+  } else {
+    computers = [];
+    // СОЗДАЕМ 30 ПК: 6 рядов по 5 компьютеров
+    for(let i=1;i<=30;i++){
+      let initStatus = 'free';
+      let initTimeLeft = 0;
+      let initCurrentUser = null;
+      // Несколько занятых для демо
+      if(i === 3 || i === 8 || i === 14) { initStatus = 'occupied'; initTimeLeft = 45; initCurrentUser = 2; }
+      else if(i === 19 || i === 25) { initStatus = 'occupied'; initTimeLeft = 120; initCurrentUser = 1; }
+      computers.push({id:i, status: initStatus, currentUser: initCurrentUser, timeLeft: initTimeLeft});
+    }
+  }
+  const savedRevenue = localStorage.getItem('cyberclub_revenue');
+  if(savedRevenue) adminRevenue = parseInt(savedRevenue);
+}
+
+function saveData(){
+  localStorage.setItem('cyberclub_users', JSON.stringify(users));
+  localStorage.setItem('cyberclub_computers_30', JSON.stringify(computers));
+  localStorage.setItem('cyberclub_revenue', adminRevenue);
+}
+
+function stopTimerForPC(pcId){
+  if(activeTimers.has(pcId)){ clearInterval(activeTimers.get(pcId)); activeTimers.delete(pcId); }
+}
+
+function startTimerForPC(pcId){
+  stopTimerForPC(pcId);
+  const interval = setInterval(() => {
+    const pc = computers.find(p => p.id === pcId);
+    if(pc && pc.status === 'occupied' && pc.timeLeft > 0){
+      pc.timeLeft--;
+      if(pc.timeLeft <= 0){
+        pc.status = 'free';
+        pc.currentUser = null;
+        pc.timeLeft = 0;
+        saveData();
+        if(!document.getElementById('hallBlock').classList.contains('hidden')) renderHall();
+        clearInterval(interval);
+        activeTimers.delete(pcId);
+        if(!document.getElementById('hallBlock').classList.contains('hidden')) alert(`🖥️ ПК ${pcId} освободился!`);
+      } else {
+        if(!document.getElementById('hallBlock').classList.contains('hidden')){
+          const pcCard = document.querySelector(`.pc-card[data-pcid='${pcId}']`);
+          if(pcCard){
+            const timerSpan = pcCard.querySelector('.pc-timer');
+            if(timerSpan) timerSpan.innerText = `⏱️ ${Math.floor(pc.timeLeft/60)}:${(pc.timeLeft%60).toString().padStart(2,'0')}`;
+          } else renderHall();
+        }
+      }
+    } else { clearInterval(interval); activeTimers.delete(pcId); }
+  }, 1000);
+  activeTimers.set(pcId, interval);
+}
+
+function initAllTimers(){
+  computers.forEach(pc => { if(pc.status === 'occupied' && pc.timeLeft > 0) startTimerForPC(pc.id); });
+}
+
+function updateUI(){
+  if(currentUser){
+    document.getElementById('displayUsername').innerText = currentUser.name;
+    document.getElementById('balanceAmount').innerText = currentUser.balance;
+    const percent = Math.min(100, (currentUser.balance / 5000) * 100);
+    document.getElementById('balanceBar').style.width = percent + '%';
+    if(currentUser.isAdmin){
+      document.getElementById('adminBtn').style.display = 'block';
+      document.getElementById('adminUsers').innerText = users.length;
+      document.getElementById('adminOnline').innerText = computers.filter(c=>c.status==='occupied').length;
+      document.getElementById('adminRevenue').innerText = adminRevenue;
+    } else { document.getElementById('adminBtn').style.display = 'none'; }
+    if(document.getElementById('profileBlock') && !document.getElementById('profileBlock').classList.contains('hidden')){
+      document.getElementById('profileName').innerText = currentUser.name;
+      document.getElementById('profileEmail').innerText = currentUser.email;
+      document.getElementById('profileBalance').innerText = currentUser.balance + ' ₽';
+      document.getElementById('profileStatus').innerText = currentUser.status;
+      document.getElementById('profileHours').innerText = currentUser.hours;
+    }
+  }
+}
+
+function showSection(section){
+  if(!currentUser && section !== 'login' && section !== 'register'){ showLoginForm(); return; }
+  ['loginBlock','registerBlock','hallBlock','tariffsBlock','profileBlock','customizeBlock','adminBlock'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.classList ? el.classList.add('hidden') : (el.style.display = 'none');
+  });
+  document.getElementById('loginBlock').style.display = 'none';
+  document.getElementById('registerBlock').style.display = 'none';
+  if(section === 'hall'){ document.getElementById('hallBlock').classList.remove('hidden'); renderHall(); }
+  else if(section === 'tariffs'){ document.getElementById('tariffsBlock').classList.remove('hidden'); }
+  else if(section === 'profile'){ document.getElementById('profileBlock').classList.remove('hidden'); updateUI(); }
+  else if(section === 'customize'){ 
+    document.getElementById('customizeBlock').classList.remove('hidden');
+    if(currentUser){
+      document.getElementById('closedProfileStatus').innerHTML = currentUser.closedProfile ? '✅ Вкл' : '❌ Выкл';
+      document.getElementById('languageStatus').innerHTML = currentUser.language === 'ru' ? 'Русский →' : 'English →';
+      document.getElementById('themeStatus').innerHTML = currentUser.theme === 'dark' ? 'Тёмная' : 'Светлая';
+    }
+  }
+  else if(section === 'admin' && currentUser?.isAdmin){ document.getElementById('adminBlock').classList.remove('hidden'); updateUI(); }
+}
+
+function showLoginForm(){ showSection('login'); document.getElementById('loginBlock').style.display = 'block'; }
+function showRegisterForm(){ document.getElementById('loginBlock').style.display = 'none'; document.getElementById('registerBlock').style.display = 'block'; }
+function login(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+  const user = users.find(u=> (u.email === email || u.name === email) && u.password === pass);
+  if(user){ currentUser = user; saveData(); updateUI(); showSection('hall'); }
+  else alert('Неверный логин или пароль!');
+}
+function register(){
+  const name = document.getElementById('regName').value.trim(), email = document.getElementById('regEmail').value.trim(), pass = document.getElementById('regPass').value, pass2 = document.getElementById('regPass2').value;
+  if(!name || !email || !pass){ alert('Заполните все поля!'); return; }
+  if(pass !== pass2){ alert('Пароли не совпадают!'); return; }
+  if(users.find(u=>u.email === email)){ alert('Email уже зарегистрирован!'); return; }
+  const newUser = { id: nextUserId++, name, email, password: pass, balance: 500, hours: 0, status: 'Normal', isAdmin: false, closedProfile: false, language: 'ru', theme: 'dark' };
+  users.push(newUser); saveData(); alert('Регистрация успешна!'); showLoginForm();
+}
+function logout(){ currentUser = null; showLoginForm(); updateUI(); }
+
+function addCustomBalance(amount){
+  if(currentUser){
+    currentUser.balance += amount;
+    adminRevenue += amount;
+    saveData();
+    updateUI();
+    alert(`💰 Баланс пополнен на ${amount}₽! Новый баланс: ${currentUser.balance}₽`);
+    if(!document.getElementById('profileBlock').classList.contains('hidden')){
+      document.getElementById('profileBalance').innerText = currentUser.balance + ' ₽';
+    }
+  } else {
+    alert('Сначала войдите в аккаунт!');
+  }
+}
+
+function renderHall(){
+  const container = document.getElementById('pcGridContainer');
+  if(!container) return;
+  container.innerHTML = '';
+  
+  // 6 рядов по 5 компьютеров = 30 ПК
+  // Все типы имеют одинаковое оформление (единый стиль)
+  const rows = [
+    { name: "Ряд 1", type: "Normal", startIdx: 0, endIdx: 5 },
+    { name: "Ряд 2", type: "Normal", startIdx: 5, endIdx: 10 },
+    { name: "Ряд 3", type: "Normal+", startIdx: 10, endIdx: 15 },
+    { name: "Ряд 4", type: "Normal++", startIdx: 15, endIdx: 20 },
+    { name: "Ряд 5", type: "VIP", startIdx: 20, endIdx: 25 },
+    { name: "Ряд 6", type: "PS", startIdx: 25, endIdx: 30 }
+  ];
+  
+  rows.forEach((row) => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'pc-row';
+    
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'row-label';
+    labelDiv.innerHTML = `
+      <span class="row-badge">${row.name}</span>
+      <span class="type-tag">${row.type}</span>
+    `;
+    rowDiv.appendChild(labelDiv);
+    
+    for(let i = row.startIdx; i < row.endIdx; i++){
+      if(i >= computers.length) break;
+      const pc = computers[i];
+      const pcCard = document.createElement('div');
+      pcCard.className = 'pc-card';
+      pcCard.setAttribute('data-pcid', pc.id);
+      let timerHtml = '';
+      if(pc.status === 'occupied' && pc.timeLeft > 0){
+        const mins = Math.floor(pc.timeLeft / 60);
+        const secs = pc.timeLeft % 60;
+        timerHtml = `<div class="pc-timer">⏱️ ${mins}:${secs.toString().padStart(2,'0')}</div>`;
+      }
+      pcCard.innerHTML = `<div class="pc-number">💻 ПК ${pc.id}</div>
+                          <div class="pc-status ${pc.status === 'free' ? 'status-free' : 'status-occupied'}">
+                            ${pc.status === 'free' ? '🟢 Свободен' : '🔴 Занят'}
+                          </div>${timerHtml}`;
+      if(pc.status === 'free' && currentUser && currentUser.balance >= 100){
+        pcCard.style.cursor = 'pointer';
+        pcCard.onclick = () => rentPC(pc.id);
+      } else if(pc.status === 'free' && (!currentUser || currentUser.balance < 100)){
+        pcCard.style.opacity = '0.5';
+        pcCard.title = 'Недостаточно средств или не авторизован';
+      } else {
+        pcCard.onclick = () => alert(`ПК ${pc.id} занят.`);
+      }
+      rowDiv.appendChild(pcCard);
+    }
+    container.appendChild(rowDiv);
+  });
+}
+
+function rentPC(pcId){
+  if(!currentUser){ alert('Сначала войдите!'); return; }
+  if(currentUser.balance < 100){ alert('Недостаточно средств!'); return; }
+  const pc = computers.find(p=>p.id === pcId);
+  if(pc && pc.status === 'free'){
+    if(confirm(`Арендовать ПК ${pcId} на 1 час за 100₽?`)){
+      currentUser.balance -= 100;
+      adminRevenue += 100;
+      pc.status = 'occupied';
+      pc.currentUser = currentUser.id;
+      pc.timeLeft = 3600;
+      currentUser.hours += 1;
+      saveData();
+      updateUI();
+      renderHall();
+      startTimerForPC(pcId);
+      alert(`✅ ПК ${pcId} арендован на 1 час!`);
+    }
+  }
+}
+
+function refreshHall(){ renderHall(); }
+function resetComputers(){ computers.forEach(pc => { pc.status = 'free'; pc.currentUser = null; pc.timeLeft = 0; stopTimerForPC(pc.id); }); saveData(); renderHall(); alert('Все компьютеры сброшены!'); }
+function giveBonus(){ users.forEach(u => { if(!u.isAdmin) u.balance += 100; }); if(currentUser && !currentUser.isAdmin) updateUI(); saveData(); alert('Всем пользователям +100₽'); }
+function toggleSetting(setting){
+  if(!currentUser) return;
+  if(setting === 'closedProfile'){ currentUser.closedProfile = !currentUser.closedProfile; document.getElementById('closedProfileStatus').innerHTML = currentUser.closedProfile ? '✅ Вкл' : '❌ Выкл'; }
+  else if(setting === 'language'){ currentUser.language = currentUser.language === 'ru' ? 'en' : 'ru'; document.getElementById('languageStatus').innerHTML = currentUser.language === 'ru' ? 'Русский →' : 'English →'; alert(currentUser.language === 'ru' ? 'Язык: Русский' : 'Language: English'); }
+  else if(setting === 'theme'){ currentUser.theme = currentUser.theme === 'dark' ? 'light' : 'dark'; document.getElementById('themeStatus').innerHTML = currentUser.theme === 'dark' ? 'Тёмная' : 'Светлая'; document.body.style.background = currentUser.theme === 'dark' ? '#0a0a0a' : '#e0e0e0'; document.body.style.color = currentUser.theme === 'dark' ? '#fff' : '#000'; }
+  saveData();
+}
+
+loadData();
+showLoginForm();
+initAllTimers();
+</script>
+</body>
+</html>
