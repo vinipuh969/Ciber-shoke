@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Cyber Club | Настройки интерфейса</title>
+<title>Cyber Club</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
@@ -214,8 +214,7 @@ body.light-theme .bar span {
 body.light-theme .bar {
   background: #ccc;
 }
-
-/* Дополнительные стили для меню кастомизации */
+  
 .settings-group {
   margin-bottom: 28px;
   border-bottom: 1px solid rgba(255,102,0,0.3);
@@ -304,7 +303,6 @@ body.light-theme .settings-group-title {
   margin-left: 10px;
 }
 
-/* Эффекты для анимаций */
 .effect-pulse {
   animation: pulse 0.5s ease;
 }
@@ -1011,8 +1009,6 @@ let computers = [];
 let adminRevenue = 18500;
 let nextUserId = 1;
 let activeTimers = new Map();
-
-// Глобальные настройки (по умолчанию)
 let userSettings = {
   animations: true,
   notifications: true,
@@ -1206,7 +1202,6 @@ function addCustomBalance(amount){
   } else { alert('Сначала войдите в аккаунт!'); }
 }
 
-// Функции настроек (без эмодзи)
 function toggleTheme(){
   if(!currentUser) return;
   currentUser.theme = currentUser.theme === 'dark' ? 'light' : 'dark';
