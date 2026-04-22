@@ -75,7 +75,8 @@ body.light-theme .card,
 body.light-theme .table-wrapper,
 body.light-theme .hall-grid,
 body.light-theme .profile-card,
-body.light-theme .pc-row {
+body.light-theme .pc-row,
+body.light-theme .deposit-card {
   background: rgba(255,255,255,0.95);
   border-color: #ddd;
   backdrop-filter: blur(2px);
@@ -859,6 +860,49 @@ input:focus, select:focus{
   color: #ff6600;
 }
 
+.deposit-card {
+  background: rgba(30,30,30,0.85);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+  transition: background 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.deposit-amount-input {
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.deposit-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.deposit-preset-btn {
+  background: rgba(42,42,42,0.9);
+  border: 1px solid #ff6600;
+  color: #ffaa33;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 18px;
+  text-align: center;
+}
+
+.deposit-preset-btn:hover {
+  background: #ff6600;
+  color: #000;
+  transform: scale(1.02);
+}
+
 .hidden {
   display: none;
 }
@@ -898,6 +942,9 @@ input:focus, select:focus{
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
+  .deposit-presets {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
 </head>
@@ -927,6 +974,7 @@ input:focus, select:focus{
       <button onclick="showSection('hall')">Зал</button>
       <button onclick="showSection('tariffs')">Тарифы</button>
       <button onclick="showSection('profile')">Профиль</button>
+      <button onclick="showSection('deposit')">Пополнение</button>
       <button onclick="showSection('customize')">Настройки</button>
       <button onclick="logout()">Выход</button>
     </div>
@@ -965,16 +1013,16 @@ input:focus, select:focus{
         <div class="table-wrapper"><div class="section-title">Тарифы</div>
           <table class="price-table"><thead><tr><th>Комната</th><th>1 час</th><th>2 часа</th><th>3 часа</th></tr></thead>
           <tbody><tr><td>Normal<br> (Ряд 1-2) </td><td>100 руб.</td><td>200 руб.</td><td>300 руб.</td></tr>
-          <tr><td>Normal +<br> (Ряд 3)</div></div></td><td>130 руб.</div></div></td><td>230 руб.</div></div></td><td>330 руб.</div></div></td></tr>
-          <tr><td>Normal ++<br> (Ряд 4)</div></div></td><td>160 руб.</div></div></td><td>260 руб.</div></div></td><td>360 руб.</div></div></td></tr>
-          <tr><td>VIP<br> (Ряд 5)</div></div></td><td>190 руб.</div></div></td><td>290 руб.</div></div></td><td>390 руб.</div></div></td></tr>
-          <tr><td>PS<br> (Ряд 6)</div></div></td><td>100 руб.</div></div></td><td>200 руб.</div></div></td><td>300 руб.</div></div></td></tr>
+          <tr><td>Normal +<br> (Ряд 3)</div></div></td><td>130 руб.</div></div></div></div></td><td>230 руб.</div></div></div></div></div></div></td><td>330 руб.</div></div></div></div></div></div></td></tr>
+          <tr><td>Normal ++<br> (Ряд 4)</div></div></div></div></td><td>160 руб.</div></div></div></div></div></div></div></div></td><td>260 руб.</div></div></div></div></div></div></div></div></td><td>360 руб.</div></div></div></div></div></div></div></div></td></tr>
+          <tr><td>VIP<br> (Ряд 5)</div></div></div></div></td><td>190 руб.</div></div></div></div></div></div></div></div></div></div></td><td>290 руб.</div></div></div></div></div></div></div></div></div></div></div></div></td><td>390 руб.</div></div></div></div></div></div></div></div></div></div></div></div></td></tr>
+          <tr><td>PS<br> (Ряд 6)</div></div></div></div></div></div></div></div></div></div></div></div></td><td>100 руб.</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></td><td>200 руб.</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></td><td>300 руб.</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></td></tr>
           </tbody>
         </table>
         </div>
         <div class="table-wrapper"><div class="section-title">Ночные тарифы</div>
           <table class="price-table"><thead><tr><th>Тип комнаты</th><th>Ночь</th><th>Стоимость</th></tr></thead>
-          <tbody><tr><td>Normal</div></div><td>8 часов</div></div><td>500 руб.</div></div></tr>
+          <tbody><tr><td>Normal</div></div><td>8 часов</div></div><td>500 руб.</div></div><tr>
           <tr><td>Normal +</div></div><td>8 часов</div></div><td>600 руб.</div></div></tr>
           <tr><td>Normal ++</div></div><td>8 часов</div></div><td>700 руб.</div></div></tr>
           <tr><td>VIP</div></div><td>8 часов</div></div><td>900 руб.</div></div></tr>
@@ -1012,12 +1060,32 @@ input:focus, select:focus{
           <div class="info-row"><span class="info-label">Статус:</span><span class="info-value" id="profileStatus">Обычный</span></div>
           <div class="info-row"><span class="info-label">Игровых часов:</span><span class="info-value" id="profileHours">0</span></div>
         </div>
-        <div class="balance-buttons">
-          <div class="balance-btn" onclick="addCustomBalance(100)">100 руб.</div>
-          <div class="balance-btn" onclick="addCustomBalance(200)">200 руб.</div>
-          <div class="balance-btn" onclick="addCustomBalance(300)">300 руб.</div>
-          <div class="balance-btn" onclick="addCustomBalance(500)">500 руб.</div>
+      </div>
+    </div>
+    
+    <div id="depositBlock" class="hidden">
+      <div class="deposit-card">
+        <h2 style="color:#ff6600; text-align:center;">Пополнение баланса</h2>
+        <div style="text-align:center; margin-bottom:20px; padding:15px; background:rgba(255,102,0,0.1); border-radius:16px;">
+          <div style="font-size:14px; color:#aaa;">Текущий баланс</div>
+          <div style="font-size:32px; font-weight:bold; color:#ffaa33;" id="depositCurrentBalance">0 руб.</div>
         </div>
+        
+        <div class="deposit-presets">
+          <div class="deposit-preset-btn" onclick="addDeposit(100)">100 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(250)">250 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(500)">500 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(1000)">1 000 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(2500)">2 500 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(5000)">5 000 ₽</div>
+        </div>
+        
+        <div style="margin: 20px 0;">
+          <input type="number" id="customDepositAmount" placeholder="Своя сумма (от 1 руб.)" min="1" step="1" style="text-align:center; font-size:18px;">
+          <button class="btn" onclick="addCustomDeposit()" style="margin-top:10px;">Пополнить</button>
+        </div>
+        
+        <button class="btn gray" onclick="showSection('profile')" style="margin-top:20px;">Назад в профиль</button>
       </div>
     </div>
     
@@ -1221,6 +1289,9 @@ function updateUI(){
       document.getElementById('profileStatus').innerText = currentUser.status;
       document.getElementById('profileHours').innerText = currentUser.hours;
     }
+    if(document.getElementById('depositBlock') && !document.getElementById('depositBlock').classList.contains('hidden')){
+      document.getElementById('depositCurrentBalance').innerHTML = currentUser.balance + ' руб.';
+    }
     if(document.getElementById('customizeBlock') && !document.getElementById('customizeBlock').classList.contains('hidden')){
       document.getElementById('themeStatus').innerHTML = currentUser.theme === 'dark' ? 'Тёмная' : 'Светлая';
       document.getElementById('animationStatus').innerHTML = currentUser.settings?.animations ? 'Вкл' : 'Выкл';
@@ -1237,7 +1308,7 @@ function showSection(section){
   if(!currentUser && section !== 'login' && section !== 'register'){ showLoginForm(); return; }
   if(currentUser) toggleSidebar(true);
   
-  ['loginBlock','registerBlock','hallBlock','tariffsBlock','profileBlock','customizeBlock'].forEach(id => {
+  ['loginBlock','registerBlock','hallBlock','tariffsBlock','profileBlock','depositBlock','customizeBlock'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.classList ? el.classList.add('hidden') : (el.style.display = 'none');
   });
@@ -1246,6 +1317,10 @@ function showSection(section){
   if(section === 'hall'){ document.getElementById('hallBlock').classList.remove('hidden'); renderHall(); }
   else if(section === 'tariffs'){ document.getElementById('tariffsBlock').classList.remove('hidden'); }
   else if(section === 'profile'){ document.getElementById('profileBlock').classList.remove('hidden'); updateUI(); }
+  else if(section === 'deposit'){ 
+    document.getElementById('depositBlock').classList.remove('hidden'); 
+    if(currentUser) updateUI();
+  }
   else if(section === 'customize'){ 
     document.getElementById('customizeBlock').classList.remove('hidden');
     if(currentUser) updateUI();
@@ -1280,17 +1355,39 @@ function register(){
 }
 function logout(){ currentUser = null; toggleSidebar(false); showLoginForm(); updateUI(); }
 
-function addCustomBalance(amount){
-  if(currentUser){
-    currentUser.balance += amount;
-    adminRevenue += amount;
-    saveData();
-    updateUI();
-    if(currentUser.settings?.notifications) alert(`Баланс пополнен на ${amount} руб.! Новый баланс: ${currentUser.balance} руб.`);
-    if(!document.getElementById('profileBlock').classList.contains('hidden')){
-      document.getElementById('profileBalance').innerText = currentUser.balance + ' руб.';
-    }
-  } else { alert('Сначала войдите в аккаунт!'); }
+// Функции пополнения баланса (без бонусов)
+function addDeposit(amount) {
+  if(!currentUser){ alert('Сначала войдите в аккаунт!'); return; }
+  currentUser.balance += amount;
+  adminRevenue += amount;
+  saveData();
+  updateUI();
+  if(currentUser.settings?.notifications) {
+    alert(`Баланс пополнен на ${amount} руб.! Новый баланс: ${currentUser.balance} руб.`);
+  }
+  if(document.getElementById('depositBlock') && !document.getElementById('depositBlock').classList.contains('hidden')){
+    document.getElementById('depositCurrentBalance').innerHTML = currentUser.balance + ' руб.';
+  }
+}
+
+function addCustomDeposit() {
+  if(!currentUser){ alert('Сначала войдите в аккаунт!'); return; }
+  const amount = parseInt(document.getElementById('customDepositAmount').value);
+  if(isNaN(amount) || amount <= 0) {
+    alert('Введите корректную сумму (от 1 руб.)');
+    return;
+  }
+  currentUser.balance += amount;
+  adminRevenue += amount;
+  saveData();
+  updateUI();
+  if(currentUser.settings?.notifications) {
+    alert(`Баланс пополнен на ${amount} руб.! Новый баланс: ${currentUser.balance} руб.`);
+  }
+  document.getElementById('customDepositAmount').value = '';
+  if(document.getElementById('depositBlock') && !document.getElementById('depositBlock').classList.contains('hidden')){
+    document.getElementById('depositCurrentBalance').innerHTML = currentUser.balance + ' руб.';
+  }
 }
 
 function toggleTheme(){
@@ -1353,12 +1450,12 @@ function renderHall(){
   const showLabels = currentUser?.settings?.showPcLabels !== false;
   
   const rows = [
-    { name: "Ряд 1", type: "Normal", count: 5, isPS: false, startId: 1 },
-    { name: "Ряд 2", type: "Normal", count: 5, isPS: false, startId: 6 },
-    { name: "Ряд 3", type: "Normal+", count: 5, isPS: false, startId: 11 },
-    { name: "Ряд 4", type: "Normal++", count: 5, isPS: false, startId: 16 },
-    { name: "Ряд 5", type: "VIP", count: 5, isPS: false, startId: 21 },
-    { name: "Ряд 6", type: "PS", count: 4, isPS: true, startId: 26 }
+    { name: "Ряд 1", type: "Normal", count: 5, isPS: false },
+    { name: "Ряд 2", type: "Normal", count: 5, isPS: false },
+    { name: "Ряд 3", type: "Normal+", count: 5, isPS: false },
+    { name: "Ряд 4", type: "Normal++", count: 5, isPS: false },
+    { name: "Ряд 5", type: "VIP", count: 5, isPS: false },
+    { name: "Ряд 6", type: "PS", count: 4, isPS: true }
   ];
   
   let currentIndex = 0;
