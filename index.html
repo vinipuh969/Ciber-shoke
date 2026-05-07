@@ -1355,7 +1355,6 @@ function register(){
 }
 function logout(){ currentUser = null; toggleSidebar(false); showLoginForm(); updateUI(); }
 
-// Функции пополнения баланса (без бонусов)
 function addDeposit(amount) {
   if(!currentUser){ alert('Сначала войдите в аккаунт!'); return; }
   currentUser.balance += amount;
