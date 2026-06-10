@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Ciber-shoke</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui, -apple-system, sans-serif;}
+
+:root {
+  --neon-primary: #00ffcc;
+  --neon-secondary: #ff00cc;
+  --neon-blue: #00ccff;
+  --dark-bg: #0a0a0f;
+  --dark-card: rgba(15, 20, 30, 0.85);
+  --light-bg: #f5f7fe;
+  --light-card: rgba(255, 255, 255, 0.95);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body{
+  background: var(--dark-bg);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+
+body.dark-theme {
+  background: var(--dark-bg);
+  color: #fff;
+}
+
+body.dark-theme .app {
+  border-color: var(--neon-primary);
+  background: rgba(8, 12, 20, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+body.dark-theme .sidebar {
+  background: rgba(5, 8, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-right-color: var(--neon-primary);
+}
+
+body.dark-theme .menu button {
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), rgba(0,255,204,0.05)) !important;
+  border-color: var(--neon-primary) !important;
+  color: var(--neon-primary) !important;
+}
+
+body.dark-theme .menu button:hover {
+  background: var(--neon-primary) !important;
+  color: #000 !important;
+}
+
+body.dark-theme .pc-card {
+  background: linear-gradient(135deg, rgba(20, 25, 40, 0.9), rgba(15, 20, 35, 0.9));
+  border-color: rgba(0,255,204,0.3);
+}
+
+body.dark-theme .pc-card:hover {
+  border-color: var(--neon-primary);
+}
+
+body.dark-theme .customize-item {
+  background: linear-gradient(135deg, rgba(20, 25, 40, 0.8), rgba(15, 20, 35, 0.8));
+  border-left-color: var(--neon-primary);
+}
+
+body.light-theme {
+  background: var(--light-bg);
+  color: #1a1a2e;
+}
+
+body.light-theme .app {
+  border-color: var(--neon-primary);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+body.light-theme .sidebar {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-right-color: var(--neon-primary);
+}
+
+body.light-theme .menu button {
+  background: linear-gradient(135deg, rgba(0,204,170,0.1), rgba(0,204,170,0.05)) !important;
+  border-color: var(--neon-primary) !important;
+  color: #1a1a2e !important;
+}
+
+body.light-theme .menu button:hover {
+  background: var(--neon-primary) !important;
+  color: #000 !important;
+}
+
+body.light-theme .pc-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(245,247,254,0.9));
+  border-color: rgba(0,204,170,0.3);
+  color: #1a1a2e;
+}
+
+body.light-theme .customize-item {
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(245,247,254,0.8));
+  border-left-color: var(--neon-primary);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); background: var(--neon-primary); color: #000; }
+}
+
+.app{
+  width: 98%;
+  height: 96%;
+  display: flex;
+  border: 2px solid var(--neon-primary);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: var(--transition);
+}
+
+.app-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body.dark-theme .app-bg .gradient-bg {
+  background: radial-gradient(circle at 20% 40%, rgba(0,255,204,0.08), rgba(10,10,20,0) 70%),
+              radial-gradient(circle at 80% 60%, rgba(255,0,204,0.05), rgba(10,10,20,0) 70%);
+}
+
+.sidebar{
+  width: 240px;
+  backdrop-filter: blur(12px);
+  z-index: 2;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px solid;
+  transition: var(--transition);
+  gap: 12px;
+}
+
+.avatar{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  transition: var(--transition);
+}
+
+.username{
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.balance{
+  width: 100%;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  text-align: center;
+  border: 1px solid rgba(0,255,204,0.3);
+}
+
+.bar{
+  height: 5px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.bar span{
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-primary), var(--neon-blue));
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.menu button {
+  width: 100%;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: var(--transition);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  border-radius: 0 !important;
+  margin-bottom: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.menu button:hover {
+  transform: translateX(3px) scale(1.01);
+}
+
+.cyber-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 30px !important;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid var(--neon-primary);
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), rgba(0,255,204,0.05));
+  color: var(--neon-primary);
+}
+
+.cyber-btn:hover {
+  transform: translateY(-1px);
+  background: var(--neon-primary);
+  color: #000;
+}
+
+.btn, .deposit-preset-btn {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: var(--transition);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  border: 2px solid var(--neon-primary);
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), rgba(0,255,204,0.05));
+  color: var(--neon-primary);
+}
+
+.btn:hover, .deposit-preset-btn:hover {
+  transform: translateY(-1px);
+  background: var(--neon-primary);
+  color: #000;
+}
+
+.btn.gray {
+  border-color: var(--neon-secondary);
+  color: var(--neon-secondary);
+  background: linear-gradient(135deg, rgba(255,0,204,0.1), rgba(255,0,204,0.05));
+}
+
+.btn.gray:hover {
+  background: var(--neon-secondary);
+  color: #000;
+}
+
+.content{
+  flex: 1;
+  z-index: 2;
+  padding: 16px;
+  overflow-y: auto;
+  height: 100%;
+  transition: var(--transition);
+  animation: slideIn 0.3s ease;
+}
+
+.auth-card {
+  background: linear-gradient(135deg, rgba(15, 20, 35, 0.95), rgba(10, 15, 25, 0.95));
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 32px 28px;
+  border: 1px solid rgba(0,255,204,0.25);
+  transition: all 0.3s ease;
+  animation: scaleIn 0.4s ease;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,204,0.08), transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+.auth-card:hover {
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 30px rgba(0,255,204,0.2);
+  transform: translateY(-3px);
+}
+
+.auth-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+}
+
+.auth-card .cyber-input-group {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.auth-card .cyber-input-group label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: block;
+  color: rgba(0,255,204,0.7);
+  text-transform: uppercase;
+}
+
+.auth-card .cyber-input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0,255,204,0.2);
+  border-radius: 14px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.auth-card .cyber-input-group input:focus {
+  outline: none;
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 15px rgba(0,255,204,0.2);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.auth-card .cyber-input-group input::placeholder {
+  color: rgba(255,255,255,0.3);
+  font-size: 12px;
+}
+
+.auth-card .cyber-btn {
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  border: none;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.auth-card .cyber-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,255,204,0.4);
+  letter-spacing: 3px;
+}
+
+.auth-card .auth-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.auth-card .auth-link a {
+  color: var(--neon-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--neon-primary);
+  transition: all 0.3s ease;
+}
+
+.auth-card .auth-link a:hover {
+  text-shadow: 0 0 8px var(--neon-primary);
+  letter-spacing: 0.5px;
+}
+
+.auth-card .password-strength {
+  margin-top: 8px;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.auth-card .password-strength-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.auth-card .password-strength-text {
+  font-size: 9px;
+  margin-top: 5px;
+  color: rgba(255,255,255,0.5);
+}
+
+.deposit-card {
+  background: linear-gradient(135deg, rgba(15, 20, 35, 0.95), rgba(10, 15, 25, 0.95));
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 32px 28px;
+  border: 1px solid rgba(0,255,204,0.25);
+  transition: all 0.3s ease;
+  animation: scaleIn 0.4s ease;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.deposit-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,204,0.08), transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+.deposit-card:hover {
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 40px rgba(0,255,204,0.2);
+  transform: translateY(-3px);
+}
+
+.deposit-card h2 {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+}
+
+.deposit-balance-box {
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(0,255,204,0.08), rgba(0,255,204,0.03));
+  border-radius: 24px;
+  border: 1px solid rgba(0,255,204,0.15);
+  transition: all 0.3s ease;
+}
+
+.deposit-balance-box:hover {
+  border-color: rgba(0,255,204,0.4);
+  background: linear-gradient(135deg, rgba(0,255,204,0.12), rgba(0,255,204,0.05));
+}
+
+.deposit-balance-box .balance-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+
+.deposit-balance-box .balance-value {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--neon-primary);
+  text-shadow: 0 0 10px rgba(0,255,204,0.5);
+  line-height: 1;
+}
+
+.deposit-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.deposit-preset-btn {
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), rgba(0,255,204,0.05));
+  border: 2px solid rgba(0,255,204,0.3);
+  border-radius: 20px;
+  padding: 14px 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--neon-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.deposit-preset-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  border-color: var(--neon-primary);
+  color: #000;
+  box-shadow: 0 8px 25px rgba(0,255,204,0.3);
+}
+
+.deposit-input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.deposit-input-group input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0,255,204,0.2);
+  border-radius: 20px;
+  color: #fff;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.deposit-input-group input:focus {
+  outline: none;
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 20px rgba(0,255,204,0.2);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.deposit-input-group input::placeholder {
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+}
+
+.deposit-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deposit-btn {
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  border: none;
+  border-radius: 40px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.deposit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,255,204,0.4);
+  letter-spacing: 3px;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,0,204,0.3);
+  border-radius: 40px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--neon-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.back-btn:hover {
+  background: var(--neon-secondary);
+  border-color: var(--neon-secondary);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,0,204,0.3);
+}
+
+.profile-card, .table-wrapper, .hall-grid {
+  background: var(--dark-card);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,255,204,0.2);
+  transition: var(--transition);
+  animation: scaleIn 0.3s ease;
+}
+
+.pc-card {
+  flex: 1;
+  min-width: 70px;
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid;
+  backdrop-filter: blur(8px);
+}
+
+.pc-card:hover {
+  transform: translateY(-3px);
+}
+
+.pc-number {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #fff, var(--neon-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.status-free {
+  background: linear-gradient(135deg, #00aa44, #00dd66);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.status-occupied {
+  background: linear-gradient(135deg, #ff3300, #ff6644);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.pc-timer {
+  font-size: 9px;
+  margin-top: 5px;
+  font-family: monospace;
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+.hall-grid {
+  padding: 12px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pc-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 12px;
+  border-left: 3px solid #00ccaa;
+  margin-bottom: 5px;
+}
+
+.pc-row:last-child {
+  margin-bottom: 0;
+}
+
+.row-label {
+  font-size: 12px;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.row-label .row-badge {
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.row-label .type-tag {
+  padding: 2px 10px;
+  border-radius: 16px;
+  font-size: 11px;
+}
+
+.tables-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.table-wrapper {
+  background: var(--dark-card);
+  border-radius: 20px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,255,204,0.25);
+  transition: all 0.3s ease;
+  animation: scaleIn 0.3s ease;
+}
+
+.table-wrapper:hover {
+  border-color: var(--neon-primary);
+  box-shadow: 0 8px 25px rgba(0,255,204,0.15);
+  transform: translateY(-2px);
+}
+
+.table-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--neon-primary);
+  display: inline-block;
+  width: auto;
+  letter-spacing: 2px;
+}
+
+.title-center {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.price-table th {
+  background: linear-gradient(135deg, rgba(0,255,204,0.15), rgba(0,255,204,0.05));
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--neon-primary);
+  border-bottom: 2px solid var(--neon-primary);
+  letter-spacing: 1px;
+}
+
+.price-table td {
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,255,204,0.15);
+  transition: all 0.2s ease;
+}
+
+.price-table tr:hover td {
+  background: rgba(0,255,204,0.08);
+  color: var(--neon-primary);
+}
+
+.price-table .room-name {
+  font-weight: 700;
+  color: var(--neon-primary);
+  text-align: left;
+}
+
+.price-table .price {
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.price-table .badge {
+  display: inline-block;
+  background: rgba(0,255,204,0.15);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  margin-left: 6px;
+}
+
+.table-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.profile-card {
+  padding: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 24px;
+}
+
+.profile-info {
+  margin: 16px 0;
+}
+
+.info-row {
+  padding: 12px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,255,204,0.1);
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--neon-primary);
+}
+
+.success-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-blue));
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 13px;
+  z-index: 1001;
+  animation: slideInRight 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0,255,204,0.3);
+}
+
+.neon-text {
+  text-shadow: 0 0 5px var(--neon-primary);
+}
+
+.content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: rgba(0,255,204,0.05);
+  border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: var(--neon-primary);
+  border-radius: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: var(--dark-card);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 24px;
+  width: 90%;
+  max-width: 450px;
+  border: 2px solid var(--neon-primary);
+  box-shadow: 0 0 40px rgba(0,255,204,0.3);
+  animation: scaleIn 0.3s ease;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.modal-content .settings-group {
+  margin-bottom: 20px;
+}
+
+.modal-content .customize-item {
+  cursor: pointer;
+}
+
+.modal-content .btn {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--neon-primary);
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 10px var(--neon-primary);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 12px 10px;
+  }
+  
+  .content {
+    padding: 12px;
+  }
+  
+  .pc-card {
+    min-width: 55px;
+    padding: 8px 4px;
+  }
+  
+  .pc-number {
+    font-size: 13px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .hall-grid {
+    gap: 15px;
+  }
+  
+  .price-table th, .price-table td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  .table-title {
+    font-size: 16px;
+  }
+  
+  .auth-card, .deposit-card {
+    max-width: 340px;
+    padding: 24px 20px;
+  }
+  
+  .auth-card h2, .deposit-card h2 {
+    font-size: 22px;
+  }
+  
+  .deposit-balance-box .balance-value {
+    font-size: 36px;
+  }
+  
+  .deposit-presets {
+    gap: 10px;
+  }
+  
+  .deposit-preset-btn {
+    padding: 10px 6px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.visible {
+    transform: translateX(0);
+  }
+  
+  .content {
+    width: 100%;
+  }
+  
+  .hall-grid {
+    gap: 12px;
+  }
+  
+  .price-table th, .price-table td {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+  
+  .auth-card, .deposit-card {
+    max-width: 300px;
+    padding: 20px 16px;
+  }
+  
+  .auth-card h2, .deposit-card h2 {
+    font-size: 18px;
+  }
+  
+  .deposit-balance-box .balance-value {
+    font-size: 28px;
+  }
+  
+  .deposit-presets {
+    gap: 8px;
+  }
+  
+  .deposit-preset-btn {
+    padding: 8px 4px;
+    font-size: 14px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.effect-pulse {
+  animation: pulse 0.3s ease;
+}
+</style>
+</head>
+<body class="dark-theme">
+
+<div class="app">
+  <div class="app-bg">
+    <div class="gradient-bg"></div>
+    <div class="grid"></div>
+    <div class="particles" id="particles"></div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="avatar"></div>
+    <div class="username" id="displayUsername">Гость</div>
+
+    <div class="balance">
+      БАЛАНС: <strong id="balanceAmount">0</strong> РУБ.
+      <div class="bar"><span id="balanceBar" style="width:0%"></span></div>
+    </div>
+
+    <div class="menu">
+      <button onclick="showSection('hall')">ЗАЛ</button>
+      <button onclick="showSection('tariffs')">ТАРИФЫ</button>
+      <button onclick="showSection('profile')">ПРОФИЛЬ</button>
+      <button onclick="showSection('deposit')">ПОПОЛНЕНИЕ</button>
+      <button onclick="openSettingsModal()">НАСТРОЙКИ</button>
+      <button onclick="logout()">ВЫХОД</button>
+    </div>
+  </div>
+
+  <div class="content" id="contentArea">
+
+    <div id="loginBlock" class="auth-card">
+      <h2>АВТОРИЗАЦИЯ</h2>
+      
+      <div class="cyber-input-group">
+        <label>ЛОГИН / EMAIL</label>
+        <input type="text" id="loginEmail" placeholder="Введите логин или email">
+      </div>
+      
+      <div class="cyber-input-group">
+        <label>ПАРОЛЬ</label>
+        <input type="password" id="loginPass" placeholder="Введите пароль">
+      </div>
+      
+      <button class="cyber-btn" onclick="login()">ВОЙТИ</button>
+      
+      <div class="auth-link">
+        Нет аккаунта? <a href="#" onclick="showNewRegisterForm()">Создать аккаунт</a>
+      </div>
+    </div>
+
+    <div id="registerBlock" class="hidden auth-card">
+      <h2>РЕГИСТРАЦИЯ</h2>
+      
+      <div class="cyber-input-group">
+        <label>ИМЯ ПОЛЬЗОВАТЕЛЯ</label>
+        <input type="text" id="regName" placeholder="Введите ваше имя">
+      </div>
+      
+      <div class="cyber-input-group">
+        <label>EMAIL</label>
+        <input type="email" id="regEmail" placeholder="example@mail.ru">
+      </div>
+      
+      <div class="cyber-input-group">
+        <label>ПАРОЛЬ</label>
+        <input type="password" id="regPass" placeholder="Минимум 4 символа">
+        <div class="password-strength">
+          <div class="password-strength-bar" id="passStrengthBar"></div>
+        </div>
+        <div class="password-strength-text" id="passStrengthText">Сложность: —</div>
+      </div>
+      
+      <div class="cyber-input-group">
+        <label>ПОВТОРИТЕ ПАРОЛЬ</label>
+        <input type="password" id="regPass2" placeholder="Повторите пароль">
+      </div>
+      
+      <button class="cyber-btn" onclick="registerNew()">СОЗДАТЬ АККАУНТ</button>
+      
+      <div class="auth-link">
+        Уже есть аккаунт? <a href="#" onclick="showLoginForm()">Войти</a>
+      </div>
+    </div>
+
+    <div id="hallBlock" class="hidden">
+      <div class="section-title" style="text-align:center;">ИГРОВОЙ ЗАЛ</div>
+      <div class="hall-grid" id="pcGridContainer"></div>
+      <div style="margin-top:12px; text-align:center;">
+        <button class="btn" onclick="refreshHall()">ОБНОВИТЬ</button>
+      </div>
+    </div>
+
+    <div id="tariffsBlock" class="hidden">
+      <div class="section-title" style="text-align:center; margin-bottom:20px;">ТАРИФЫ</div>
+      <div class="tables-container">
+
+        <div class="table-wrapper">
+          <div class="title-center">
+            <div class="table-title">Обычные тарифы</div>
+          </div>
+          <table class="price-table">
+            <thead>
+              <tr><th>Тип компьютера</th><th>1 час</th><th>2 часа</th><th>3 часа</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="room-name">Normal</div></div><td>100 ₽</div></div><td>200 ₽</div></div><td>300 ₽</div></div></tr>
+              <tr><td class="room-name">Normal +</div></div><td>130 ₽</div></div><td>230 ₽</div></div><td>330 ₽</div></div></tr>
+              </tr><td class="room-name">Normal ++</div></div><td>160 ₽</div></div><td>260 ₽</div></div><td>360 ₽</div></div></tr>
+              <tr><td class="room-name">VIP</div></div><td>190 ₽</div></div><td>290 ₽</div></div><td>390 ₽</div></div></tr>
+              <tr><td class="room-name">PS</div></div><td>100 ₽</div></div><td>200 ₽</div></div><td>300 ₽</div></div></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="title-center">
+            <div class="table-title">Ночные тарифы</div>
+          </div>
+          <table class="price-table">
+            <thead><tr><th>Тип компьютера</th><th>Время</th><th>Стоимость</th></tr></thead>
+            <tbody>
+              <tr><td class="room-name">Normal</div></div><td>8 часов (22:00 - 06:00)</div></div><td>500 ₽</div></div></tr>
+              <tr><td class="room-name">Normal +</div></div><td>8 часов (22:00 - 06:00)</div></div><td>600 ₽</div></div></tr>
+              <tr><td class="room-name">Normal ++</div></div><td>8 часов (22:00 - 06:00)</div></div><td>700 ₽</div></div></tr>
+              <tr><td class="room-name">VIP</div></div><td>8 часов (22:00 - 06:00)</div></div><td>900 ₽</div></div></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="title-center">
+            <div class="table-title">Дневные тарифы</div>
+          </div>
+          <table class="price-table">
+            <thead><tr><th>Тип компьютера</th><th>Время</th><th>Стоимость</th><tr></thead>
+            <tbody>
+              <tr><td class="room-name">Normal</div></div><td>14 часов (09:00 - 23:00)</div></div><td>700 ₽</div></div></tr>
+              <tr><td class="room-name">Normal +</div></div><td>14 часов (09:00 - 23:00)</div></div><td>800 ₽</div></div></tr>
+              <tr><td class="room-name">Normal ++</div></div><td>14 часов (09:00 - 23:00)</div></div><td>900 ₽</div></div></tr>
+              <tr><td class="room-name">VIP</div></div><td>14 часов (09:00 - 23:00)</div></div><td>1000 ₽</div></div></table>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="title-center">
+            <div class="table-title">Ночь + День</div>
+          </div>
+          <table class="price-table">
+            <thead><tr><th>Тип компьютера</th><th>Время</th><th>Стоимость</th></tr></thead>
+            <tbody>
+              <tr><td class="room-name">Normal</div></div><td>Ночь + День (22 часа)</div></div><td>1200 ₽</div></div></tr>
+              <tr><td class="room-name">Normal +</div></div><td>Ночь + День (22 часа)</div></div><td>1400 ₽</div></div></tr>
+              <tr><td class="room-name">Normal ++</div></div><td>Ночь + День (22 часа)</div></div><td>1600 ₽</div></div></tr>
+              <tr><td class="room-name">VIP</div></div><td>Ночь + День (22 часа)</div></div><td>1900 ₽</div></div></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="profileBlock" class="hidden">
+      <div class="profile-card">
+        <h2 style="text-align:center;">ПРОФИЛЬ</h2>
+        <div class="profile-info">
+          <div class="info-row"><span>Имя:</span><span id="profileName">-</span></div>
+          <div class="info-row"><span>Email:</span><span id="profileEmail">-</span></div>
+          <div class="info-row"><span>Баланс:</span><span id="profileBalance">0 ₽</span></div>
+          <div class="info-row"><span>Статус:</span><span id="profileStatus">Обычный</span></div>
+          <div class="info-row"><span>Часов:</span><span id="profileHours">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="depositBlock" class="hidden">
+      <div class="deposit-card">
+        <h2>ПОПОЛНЕНИЕ</h2>
+        
+        <div class="deposit-balance-box">
+          <div class="balance-label">ТЕКУЩИЙ БАЛАНС</div>
+          <div class="balance-value" id="depositCurrentBalance">0 ₽</div>
+        </div>
+        
+        <div class="deposit-presets">
+          <div class="deposit-preset-btn" onclick="addDeposit(100)">100 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(250)">250 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(500)">500 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(1000)">1 000 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(2500)">2 500 ₽</div>
+          <div class="deposit-preset-btn" onclick="addDeposit(5000)">5 000 ₽</div>
+        </div>
+        
+        <div class="deposit-input-group">
+          <input type="number" id="customDepositAmount" placeholder="Введите свою сумму" min="1" step="1">
+        </div>
+        
+        <div class="deposit-actions">
+          <button class="deposit-btn" onclick="addCustomDeposit()">ПОПОЛНИТЬ</button>
+          <button class="back-btn" onclick="showSection('profile')">НАЗАД В ПРОФИЛЬ</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeSettingsModal()">&times;</span>
+        <h2 class="neon-text">НАСТРОЙКИ</h2>
+        
+        <div class="settings-group">
+          <div class="settings-group-title">Внешний вид</div>
+          <div class="customize-item" onclick="toggleTheme()">
+            <span>Цветовая тема</span>
+            <span id="modalThemeStatus">Тёмная</span>
+          </div>
+          <div class="customize-item" onclick="toggleAnimationEffect()">
+            <span>Анимация</span>
+            <span id="modalAnimationStatus">Вкл</span>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Интерфейс</div>
+          <div class="customize-item" onclick="toggleCompactMode()">
+            <span>Компактный режим</span>
+            <span id="modalCompactStatus">Выкл</span>
+          </div>
+          <div class="customize-item" onclick="togglePcLabels()">
+            <span>Иконки ПК</span>
+            <span id="modalLabelsStatus">Вкл</span>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Прочее</div>
+          <div class="customize-item" onclick="resetUserSettings()">
+            <span>Сбросить настройки</span>
+            <span>Сброс</span>
+          </div>
+        </div>
+
+        <button class="btn gray" onclick="closeSettingsModal()">ЗАКРЫТЬ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function createParticles() {
+  const container = document.getElementById('particles');
+  if(!container) return;
+  container.innerHTML = '';
+  for(let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = Math.random() * 12 + 5 + 's';
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    particle.style.opacity = Math.random() * 0.4 + 0.1;
+    container.appendChild(particle);
+  }
+}
+
+setTimeout(createParticles, 100);
+
+let currentUser = null;
+let users = [];
+let computers = [];
+let adminRevenue = 18500;
+let nextUserId = 1;
+let activeTimers = new Map();
+let userSettings = {
+  animations: true,
+  notifications: true,
+  desktopAlerts: true,
+  compactMode: false,
+  showPcLabels: true
+};
+
+function toggleSidebar(show){
+  const sidebar = document.getElementById('sidebar');
+  if(window.innerWidth <= 480) {
+    if(show) sidebar.classList.add('visible');
+    else sidebar.classList.remove('visible');
+  } else {
+    if(show) sidebar.style.transform = 'translateX(0)';
+    else sidebar.style.transform = 'translateX(-100%)';
+  }
+}
+
+function loadData(){
+  const savedUsers = localStorage.getItem('cyberclub_users');
+  if(savedUsers){
+    users = JSON.parse(savedUsers);
+    nextUserId = users.length > 0 ? Math.max(...users.map(u=>u.id)) + 1 : 1;
+  } else {
+    users = [
+      {id:1, name:"Admin", email:"admin@club.ru", password:"1488", balance:5000, hours:120, status:"VIP", isAdmin:true, closedProfile:false, language:'ru', theme:'dark', settings:{...userSettings}},
+      {id:2, name:"Игрок", email:"player@mail.ru", password:"123", balance:2000, hours:25, status:"Normal", isAdmin:false, closedProfile:false, language:'ru', theme:'dark', settings:{...userSettings}}
+    ];
+    nextUserId = 3;
+  }
+  const savedComputers = localStorage.getItem('cyberclub_computers_29');
+  if(savedComputers) computers = JSON.parse(savedComputers);
+  else {
+    computers = [];
+    for(let i=1;i<=29;i++){
+      let initStatus = 'free', initTimeLeft = 0, initCurrentUser = null;
+      if(i === 3 || i === 8 || i === 14) { initStatus = 'occupied'; initTimeLeft = 45; initCurrentUser = 2; }
+      else if(i === 19 || i === 25) { initStatus = 'occupied'; initTimeLeft = 120; initCurrentUser = 1; }
+      computers.push({id:i, status: initStatus, currentUser: initCurrentUser, timeLeft: initTimeLeft});
+    }
+  }
+  const savedRevenue = localStorage.getItem('cyberclub_revenue');
+  if(savedRevenue) adminRevenue = parseInt(savedRevenue);
+}
+
+function saveData(){
+  localStorage.setItem('cyberclub_users', JSON.stringify(users));
+  localStorage.setItem('cyberclub_computers_29', JSON.stringify(computers));
+  localStorage.setItem('cyberclub_revenue', adminRevenue);
+}
+
+function stopTimerForPC(pcId){
+  if(activeTimers.has(pcId)){ clearInterval(activeTimers.get(pcId)); activeTimers.delete(pcId); }
+}
+
+function startTimerForPC(pcId){
+  stopTimerForPC(pcId);
+  const interval = setInterval(() => {
+    const pc = computers.find(p => p.id === pcId);
+    if(pc && pc.status === 'occupied' && pc.timeLeft > 0){
+      pc.timeLeft--;
+      if(pc.timeLeft <= 0){
+        pc.status = 'free';
+        pc.currentUser = null;
+        pc.timeLeft = 0;
+        saveData();
+        if(!document.getElementById('hallBlock').classList.contains('hidden')) renderHall();
+        clearInterval(interval);
+        activeTimers.delete(pcId);
+        if(currentUser && currentUser.settings && currentUser.settings.desktopAlerts && !document.getElementById('hallBlock').classList.contains('hidden')) {
+          showToast((pcId >= 26 ? 'PS' : 'ПК') + ' ' + pcId + ' освободился!');
+        }
+      } else {
+        if(!document.getElementById('hallBlock').classList.contains('hidden')) renderHall();
+      }
+    } else { clearInterval(interval); activeTimers.delete(pcId); }
+  }, 1000);
+  activeTimers.set(pcId, interval);
+}
+
+function initAllTimers(){
+  computers.forEach(pc => { if(pc.status === 'occupied' && pc.timeLeft > 0) startTimerForPC(pc.id); });
+}
+
+function applyTheme(theme){
+  document.body.classList.remove('dark-theme', 'light-theme');
+  document.body.classList.add(theme === 'dark' ? 'dark-theme' : 'light-theme');
+}
+
+function showToast(message){
+  const toast = document.createElement('div');
+  toast.className = 'success-toast';
+  toast.innerHTML = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+function updateUI(){
+  if(currentUser){
+    document.getElementById('displayUsername').innerText = currentUser.name;
+    document.getElementById('balanceAmount').innerText = currentUser.balance;
+    document.getElementById('balanceBar').style.width = Math.min(100, (currentUser.balance / 5000) * 100) + '%';
+    
+    if(!document.getElementById('profileBlock').classList.contains('hidden')){
+      document.getElementById('profileName').innerText = currentUser.name;
+      document.getElementById('profileEmail').innerText = currentUser.email;
+      document.getElementById('profileBalance').innerText = currentUser.balance + ' ₽';
+      document.getElementById('profileStatus').innerText = currentUser.status;
+      document.getElementById('profileHours').innerText = currentUser.hours;
+    }
+    if(!document.getElementById('depositBlock').classList.contains('hidden')){
+      document.getElementById('depositCurrentBalance').innerHTML = currentUser.balance + ' ₽';
+    }
+    
+    const modalTheme = document.getElementById('modalThemeStatus');
+    const modalAnimation = document.getElementById('modalAnimationStatus');
+    const modalCompact = document.getElementById('modalCompactStatus');
+    const modalLabels = document.getElementById('modalLabelsStatus');
+    
+    if(modalTheme) modalTheme.innerHTML = currentUser.theme === 'dark' ? 'Тёмная' : 'Светлая';
+    if(modalAnimation) modalAnimation.innerHTML = currentUser.settings?.animations ? 'Вкл' : 'Выкл';
+    if(modalCompact) modalCompact.innerHTML = currentUser.settings?.compactMode ? 'Вкл' : 'Выкл';
+    if(modalLabels) modalLabels.innerHTML = currentUser.settings?.showPcLabels ? 'Вкл' : 'Выкл';
+    
+    applyTheme(currentUser.theme);
+  }
+}
+
+function showSection(section){
+  if(!currentUser && section !== 'login' && section !== 'register'){ showLoginForm(); return; }
+  if(currentUser) toggleSidebar(true);
+  
+  ['loginBlock','registerBlock','hallBlock','tariffsBlock','profileBlock','depositBlock'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.classList.add('hidden');
+  });
+  if(section === 'hall'){ document.getElementById('hallBlock').classList.remove('hidden'); renderHall(); }
+  else if(section === 'tariffs'){ document.getElementById('tariffsBlock').classList.remove('hidden'); }
+  else if(section === 'profile'){ document.getElementById('profileBlock').classList.remove('hidden'); updateUI(); }
+  else if(section === 'deposit'){ document.getElementById('depositBlock').classList.remove('hidden'); if(currentUser) updateUI(); }
+}
+
+function openSettingsModal(){
+  if(!currentUser){ alert('Сначала войдите в аккаунт!'); return; }
+  updateUI();
+  const modal = document.getElementById('settingsModal');
+  modal.classList.remove('hidden');
+}
+
+function closeSettingsModal(){
+  const modal = document.getElementById('settingsModal');
+  modal.classList.add('hidden');
+}
+
+function showLoginForm(){ 
+  toggleSidebar(false); 
+  document.getElementById('loginBlock').classList.remove('hidden');
+  document.getElementById('registerBlock').classList.add('hidden');
+  document.getElementById('hallBlock').classList.add('hidden');
+  document.getElementById('tariffsBlock').classList.add('hidden');
+  document.getElementById('profileBlock').classList.add('hidden');
+  document.getElementById('depositBlock').classList.add('hidden');
+  closeSettingsModal();
+}
+
+function showNewRegisterForm(){ 
+  toggleSidebar(false); 
+  document.getElementById('registerBlock').classList.remove('hidden');
+  document.getElementById('loginBlock').classList.add('hidden');
+  closeSettingsModal();
+}
+
+function login(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+  const user = users.find(u=> (u.email === email || u.name === email) && u.password === pass);
+  
+  if(user){ 
+    if(!user.settings) user.settings = {...userSettings};
+    currentUser = user; 
+    saveData(); 
+    updateUI(); 
+    toggleSidebar(true);
+    showSection('hall');
+    showToast('Добро пожаловать, ' + user.name + '!');
+  } else {
+    showToast('Неверный логин или пароль');
+  }
+}
+
+function checkPasswordStrength() {
+  const pass = document.getElementById('regPass').value;
+  const bar = document.getElementById('passStrengthBar');
+  const text = document.getElementById('passStrengthText');
+  let strength = 0;
+  if(pass.length >= 4) strength = 1;
+  if(pass.length >= 6) strength = 2;
+  if(pass.length >= 8 && /[A-Z]/.test(pass) && /[0-9]/.test(pass)) strength = 3;
+  if(pass.length >= 10 && /[A-Z]/.test(pass) && /[0-9]/.test(pass) && /[^A-Za-z0-9]/.test(pass)) strength = 4;
+  
+  const widths = ['0%', '25%', '50%', '75%', '100%'];
+  const texts = ['—', 'Слабый', 'Средний', 'Хороший', 'Отличный'];
+  
+  bar.style.width = widths[strength];
+  text.innerHTML = 'Сложность: ' + texts[strength];
+}
+
+document.getElementById('regPass').addEventListener('input', checkPasswordStrength);
+
+function registerNew(){
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  
+  let isValid = true;
+  let errorMessage = '';
+  
+  if(name.length < 2){
+    isValid = false;
+    errorMessage = 'Имя должно содержать минимум 2 символа';
+  } else if(!/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email)){
+    isValid = false;
+    errorMessage = 'Неверный email';
+  } else if(pass.length < 4){
+    isValid = false;
+    errorMessage = 'Пароль должен содержать минимум 4 символа';
+  } else if(pass !== pass2){
+    isValid = false;
+    errorMessage = 'Пароли не совпадают';
+  }
+  
+  if(!isValid){
+    showToast(errorMessage);
+    return;
+  }
+  
+  if(users.find(u=>u.email === email)){
+    showToast('Email уже зарегистрирован!');
+    return;
+  }
+  
+  const newUser = { 
+    id: nextUserId++, 
+    name, 
+    email, 
+    password: pass, 
+    balance: 500, 
+    hours: 0, 
+    status: 'Normal', 
+    isAdmin: false, 
+    closedProfile: false, 
+    language: 'ru', 
+    theme: 'dark', 
+    settings: {...userSettings} 
+  };
+  users.push(newUser);
+  saveData();
+  
+  showToast('Регистрация успешна!');
+  setTimeout(() => showLoginForm(), 1200);
+}
+
+function logout(){ currentUser = null; toggleSidebar(false); showLoginForm(); updateUI(); closeSettingsModal(); showToast('До свидания!'); }
+
+function addDeposit(amount) {
+  if(!currentUser){ alert('Сначала войдите!'); return; }
+  currentUser.balance += amount;
+  adminRevenue += amount;
+  saveData();
+  updateUI();
+  if(currentUser.settings?.notifications) showToast('+' + amount + ' ₽');
+  if(!document.getElementById('depositBlock').classList.contains('hidden')) document.getElementById('depositCurrentBalance').innerHTML = currentUser.balance + ' ₽';
+}
+
+function addCustomDeposit() {
+  if(!currentUser){ alert('Сначала войдите!'); return; }
+  const amount = parseInt(document.getElementById('customDepositAmount').value);
+  if(isNaN(amount) || amount <= 0) { alert('Введите сумму от 1 ₽'); return; }
+  addDeposit(amount);
+  document.getElementById('customDepositAmount').value = '';
+}
+
+function toggleTheme(){
+  if(!currentUser) return;
+  currentUser.theme = currentUser.theme === 'dark' ? 'light' : 'dark';
+  if(currentUser.settings?.animations) document.querySelector('.customize-item')?.classList.add('effect-pulse');
+  setTimeout(() => document.querySelector('.customize-item')?.classList.remove('effect-pulse'), 300);
+  updateUI();
+  saveData();
+}
+function toggleAnimationEffect(){ if(currentUser){ currentUser.settings.animations = !currentUser.settings.animations; updateUI(); saveData(); } }
+function toggleNotifications(){ if(currentUser){ currentUser.settings.notifications = !currentUser.settings.notifications; updateUI(); saveData(); } }
+function toggleDesktopAlerts(){ if(currentUser){ currentUser.settings.desktopAlerts = !currentUser.settings.desktopAlerts; updateUI(); saveData(); } }
+function toggleCompactMode(){ if(currentUser){ currentUser.settings.compactMode = !currentUser.settings.compactMode; updateUI(); renderHall(); saveData(); } }
+function togglePcLabels(){ if(currentUser){ currentUser.settings.showPcLabels = !currentUser.settings.showPcLabels; updateUI(); renderHall(); saveData(); } }
+function resetUserSettings(){ if(currentUser){ currentUser.settings = {...userSettings}; currentUser.theme = 'dark'; updateUI(); renderHall(); saveData(); showToast('Настройки сброшены!'); } }
+
+function renderHall(){
+  const container = document.getElementById('pcGridContainer');
+  if(!container) return;
+  container.innerHTML = '';
+  const isCompact = currentUser?.settings?.compactMode || false;
+  const showLabels = currentUser?.settings?.showPcLabels !== false;
+  const rows = [
+    { name: "Ряд 1", type: "Normal", count: 5, isPS: false },
+    { name: "Ряд 2", type: "Normal", count: 5, isPS: false },
+    { name: "Ряд 3", type: "Normal+", count: 5, isPS: false },
+    { name: "Ряд 4", type: "Normal++", count: 5, isPS: false },
+    { name: "Ряд 5", type: "VIP", count: 5, isPS: false },
+    { name: "Ряд 6", type: "PS", count: 4, isPS: true }
+  ];
+  let idx = 0;
+  rows.forEach((row, rowIndex) => {
+    const rowDiv = document.createElement('div'); 
+    rowDiv.className = 'pc-row';
+    if(isCompact) rowDiv.style.gap = '6px';
+    if(rowIndex < rows.length - 1) {
+      rowDiv.style.marginBottom = '8px';
+    }
+    const labelDiv = document.createElement('div'); 
+    labelDiv.className = 'row-label';
+    labelDiv.innerHTML = '<span class="row-badge">' + row.name + '</span><span class="type-tag">' + row.type + '</span><span style="font-size:10px;">' + row.count + '</span>';
+    rowDiv.appendChild(labelDiv);
+    for(let i = 0; i < row.count && idx < computers.length; i++){
+      const pc = computers[idx];
+      const card = document.createElement('div'); 
+      card.className = 'pc-card';
+      if(isCompact) card.style.padding = '8px 3px';
+      let timer = '';
+      if(pc.status === 'occupied' && pc.timeLeft > 0){
+        let m = Math.floor(pc.timeLeft/60), s = pc.timeLeft%60;
+        timer = '<div class="pc-timer">' + m + ':' + s.toString().padStart(2,'0') + '</div>';
+      }
+      const devLabel = row.isPS ? 'PS' : 'ПК';
+      const labelText = showLabels ? devLabel + ' ' + pc.id : pc.id;
+      card.innerHTML = '<div class="pc-number">' + labelText + '</div><div class="pc-status ' + (pc.status === 'free' ? 'status-free' : 'status-occupied') + '">' + (pc.status === 'free' ? 'Свободен' : 'Занят') + '</div>' + timer;
+      if(pc.status === 'free' && currentUser && currentUser.balance >= 100){
+        card.style.cursor = 'pointer';
+        card.onclick = () => rentPC(pc.id, row.isPS);
+      } else if(pc.status === 'free' && (!currentUser || currentUser.balance < 100)){
+        card.style.opacity = '0.4';
+        card.title = 'Недостаточно средств';
+      } else {
+        card.onclick = () => { if(currentUser?.settings?.desktopAlerts) showToast(devLabel + ' ' + pc.id + ' занят'); };
+      }
+      rowDiv.appendChild(card);
+      idx++;
+    }
+    container.appendChild(rowDiv);
+  });
+}
+
+function rentPC(pcId, isPS){
+  if(!currentUser){ alert('Сначала войдите!'); return; }
+  if(currentUser.balance < 100){ alert('Недостаточно средств!'); return; }
+  const pc = computers.find(p=>p.id === pcId);
+  if(pc && pc.status === 'free'){
+    const deviceName = isPS ? 'PS' : 'ПК';
+    if(confirm('Арендовать ' + deviceName + ' ' + pcId + ' на 1 час за 100 ₽?')){
+      currentUser.balance -= 100;
+      adminRevenue += 100;
+      pc.status = 'occupied';
+      pc.currentUser = currentUser.id;
+      pc.timeLeft = 3600;
+      currentUser.hours += 1;
+      saveData();
+      updateUI();
+      renderHall();
+      startTimerForPC(pcId);
+      if(currentUser.settings.notifications) showToast(deviceName + ' ' + pcId + ' арендован!');
+    }
+  }
+}
+
+function refreshHall(){ renderHall(); }
+
+loadData();
+showLoginForm();
+function setupEnterKeyHandler(){
+  const le = document.getElementById('loginEmail'), lp = document.getElementById('loginPass');
+  const fn = (e) => { if(e.key === 'Enter'){ e.preventDefault(); login(); } };
+  if(le) le.addEventListener('keypress', fn);
+  if(lp) lp.addEventListener('keypress', fn);
+}
+setupEnterKeyHandler();
+initAllTimers();
+
+window.addEventListener('resize', () => {
+  if(window.innerWidth > 480 && currentUser) {
+    document.getElementById('sidebar').style.transform = '';
+  }
+});
+
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('settingsModal');
+  if(e.target === modal) {
+    closeSettingsModal();
+  }
+});
+</script>
+</body>
+</html>
