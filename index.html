@@ -316,15 +316,18 @@ body.dark-theme .app-bg .gradient-bg {
   height: 100%;
   transition: var(--transition);
   animation: slideIn 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .auth-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100%;
+  flex: 1;
   width: 100%;
   pointer-events: auto;
+  min-height: 100%;
 }
 
 .auth-card {
@@ -337,28 +340,13 @@ body.dark-theme .app-bg .gradient-bg {
   animation: scaleIn 0.4s ease;
   width: 100%;
   max-width: 360px;
-  margin: 0 auto;
-  position: relative;
   overflow: hidden;
   box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
-}
-
-.auth-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(0,255,204,0.08), transparent 70%);
-  animation: rotate 20s linear infinite;
-  pointer-events: none;
-}
-
-.auth-card:hover {
-  border-color: var(--neon-primary);
-  box-shadow: 0 0 30px rgba(0,255,204,0.2);
-  transform: translateY(-3px);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; 
 }
 
 .auth-card h2 {
@@ -1022,7 +1010,7 @@ body.dark-theme .app-bg .gradient-bg {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .effect-pulse {
